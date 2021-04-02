@@ -1,0 +1,23 @@
+
+Spotify Duplicates scans a spotify playlist for duplicates according to filter and prints out the ones that match.
+The playlist needs to be public and freely accessible over the internet. To run:
+
+- Install any python dependencies:
+$ pip install -r requirements.txt
+
+- Set SPOTIPY_CLIENT_ID and SPOTIPY_CLIENT_SECRET in your environment. You get the values for these if you register an app in the spotify developers page.
+
+- Make it executable (or else utilize python interpreter directly):
+$ chmod +x dup.py
+
+- Run it with the playlist ID and a regex filter as arguments. You get the ID through spotify client if you go for "spotify uri". 
+The regex filter needs to match any kind of song key producing a series of groups. If two songs produce the exact identical groups they are considered duplicates. 
+The key is of the form <song name>:<song artist>. If a playlist entry produces no groups it is ignored. Examples:
+
+./dup.py <playlist_id> "(.+)"                                       # Get entries that have the exact same song and artist
+./dup.py <playlist_id> "(.+):.*"                                    # Get entries that share only the same song
+./dup.py <playlist_id> "([^-]+)(?: -.*(?:Remaster|Live).*)?:(.+)"   # Get entries that have same artist, and same song that may or may not be succeeded by " - Live..." or " - Remaster..."
+
+Results are written on duplicates.csv
+
+DISCLAIMER: This is a barebones app for quick n dirty work. Don't expect it to fail gracefully if you feed it bullshit input or you have a failed internet connection.
